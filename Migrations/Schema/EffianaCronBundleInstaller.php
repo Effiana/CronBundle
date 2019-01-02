@@ -32,41 +32,34 @@ class EffianaCronBundleInstaller implements Installation
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        $this->createBrandOrientedMigrationsDataTable($schema);
-    }
+        if(!$schema->hasTable('cron_job')) {
 
-    /**
-     * Create brandoriented_migrations_data table
-     *
-     * @param Schema $schema
-     */
-    protected function createBrandOrientedMigrationsDataTable(Schema $schema)
-    {
-       if(!$schema->hasTable('cron_job')) {
+            $table = $schema->createTable('cron_job');
+            $table->addColumn('id', 'integer', ['notnull' => true, 'autoincrement' => true]);
+            $table->addColumn('name', 'string', ['default' => null, 'notnull' => true, 'length' => 191]);
+            $table->addColumn('command', 'string', ['default' => null, 'notnull' => true, 'length' => 1024]);
+            $table->addColumn('schedule', 'string', ['default' => null, 'notnull' => true, 'length' => 191]);
+            $table->addColumn('description', 'string', ['default' => null, 'notnull' => true, 'length' => 191]);
+            $table->addColumn('enabled', 'boolean', ['notnull' => true]);
+            $table->addUniqueIndex(['name'], 'un_name');
 
-           $table = $schema->createTable('cron_job');
-           $table->addColumn('id', 'integer', ['notnull' => true, 'autoincrement' => true]);
-           $table->addColumn('name', 'string', ['default' => null, 'notnull' => true, 'length' => 191]);
-           $table->addColumn('command', 'string', ['default' => null, 'notnull' => true, 'length' => 1024]);
-           $table->addColumn('schedule', 'string', ['default' => null, 'notnull' => true, 'length' => 191]);
-           $table->addColumn('description', 'string', ['default' => null, 'notnull' => true, 'length' => 191]);
-           $table->addColumn('enabled', 'boolean', ['notnull' => true]);
-           $table->addUniqueIndex(['name'], 'un_name');
+            $table->setPrimaryKey(['id']);
 
-           $table->setPrimaryKey(['id']);
-       }
-       if(!$schema->hasTable('cron_report')) {
+            $queries->addPostQuery('INSERT INTO cron_job SELECT nextval(\'cron_job_id_seq\') AS id, name, command, cron_expression, name AS description, TRUE as enabled FROM scheduled_command;');
+        }
+        if(!$schema->hasTable('cron_report')) {
 
-           $table = $schema->createTable('cron_report');
-           $table->addColumn('id', 'integer', ['notnull' => true, 'autoincrement' => true]);
-           $table->addColumn('run_at', 'datetime', ['notnull' => true]);
-           $table->addColumn('run_time', 'float', ['notnull' => true]);
-           $table->addColumn('exit_code', 'integer', ['notnull' => true]);
-           $table->addColumn('output', 'text', ['notnull' => true]);
-           $table->addColumn('job_id', 'integer', ['notnull' => true]);
-           $table->setPrimaryKey(['id']);
+            $table = $schema->createTable('cron_report');
+            $table->addColumn('id', 'integer', ['notnull' => true, 'autoincrement' => true]);
+            $table->addColumn('run_at', 'datetime', ['notnull' => true]);
+            $table->addColumn('run_time', 'float', ['notnull' => true]);
+            $table->addColumn('exit_code', 'integer', ['notnull' => true]);
+            $table->addColumn('output', 'text', ['notnull' => true]);
+            $table->addColumn('job_id', 'integer', ['notnull' => true]);
+            $table->setPrimaryKey(['id']);
 
-           $table->addForeignKeyConstraint('cron_job', ['job_id'], ['id']);
-       }
+            $table->addForeignKeyConstraint('cron_job', ['job_id'], ['id']);
+        }
+
     }
 }
