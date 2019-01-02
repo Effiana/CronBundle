@@ -9,6 +9,7 @@
  */
 namespace Effiana\CronBundle\Cron;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Effiana\CronBundle\Entity\CronJob;
 use Effiana\CronBundle\Entity\CronJobRepository;
 use Effiana\CronBundle\Entity\CronReport;
@@ -20,16 +21,16 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 class Manager
 {
     /**
-     * @var RegistryInterface
+     * @var EntityManagerInterface
      */
-    protected $registry;
+    protected $manager;
 
     /**
      * @param RegistryInterface $registry
      */
     function __construct(RegistryInterface $registry)
     {
-        $this->registry = $registry;
+        $this->manager = $registry->getManagerForClass(CronJob::class);
     }
 
     /**
@@ -37,7 +38,7 @@ class Manager
      */
     protected function getJobRepo()
     {
-        return $this->registry->getRepository('EffianaCronBundle:CronJob');
+        return $this->manager->getRepository(CronJob::class);
     }
 
     /**
@@ -45,7 +46,6 @@ class Manager
      */
     public function saveReports(array $reports)
     {
-        $em = $this->registry->getManager();
         foreach ($reports as $report) {
             $dbReport = new CronReport();
             $dbReport->setJob($report->getJob()->raw);
@@ -53,9 +53,9 @@ class Manager
             $dbReport->setExitCode($report->getJob()->getProcess()->getExitCode());
             $dbReport->setRunAt(\DateTime::createFromFormat('U.u', (string) $report->getStartTime()));
             $dbReport->setRunTime($report->getEndTime() - $report->getStartTime());
-            $em->persist($dbReport);
+            $this->manager->persist($dbReport);
         }
-        $em->flush();
+        $this->manager->flush();
     }
 
     /**
@@ -87,14 +87,13 @@ class Manager
      */
     public function saveJob(CronJob $job)
     {
-        $em = $this->registry->getManager();
-        $em->persist($job);
-        $em->flush();
+        $this->manager->persist($job);
+        $this->manager->flush();
     }
 
     /**
      * @param  string  $name
-     * @return CronJob
+     * @return CronJob|object
      */
     public function getJobByName($name)
     {
@@ -109,8 +108,7 @@ class Manager
      */
     public function deleteJob(CronJob $job)
     {
-        $em = $this->registry->getManager();
-        $em->remove($job);
-        $em->flush();
+        $this->manager->remove($job);
+        $this->manager->flush();
     }
 }
