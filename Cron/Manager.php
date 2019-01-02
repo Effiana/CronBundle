@@ -37,7 +37,7 @@ class Manager
      */
     protected function getJobRepo()
     {
-        return $this->registry->getRepository('CronCronBundle:CronJob');
+        return $this->registry->getRepository('EffianaCronBundle:CronJob');
     }
 
     /**

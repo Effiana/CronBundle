@@ -17,7 +17,7 @@ use BrandOriented\DatabaseBundle\Migration\QueryBag;
 use Doctrine\DBAL\Schema\Schema;
 
 
-class CronCronBundleInstaller implements Installation
+class EffianaCronBundleInstaller implements Installation
 {
     /**
      * {@inheritdoc}
