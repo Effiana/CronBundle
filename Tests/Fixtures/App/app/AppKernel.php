@@ -11,7 +11,7 @@ class AppKernel extends Kernel
           new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
           new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
 
-          new Cron\CronBundle\CronCronBundle(),
+          new Effiana\CronBundle\EffianaCronBundle(),
         );
     }
 

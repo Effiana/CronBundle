@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-use Cron\CronBundle\Cron\Manager;
+use Effiana\CronBundle\Cron\Manager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
@@ -18,7 +18,7 @@ class CommandBuilderTest extends WebTestCase
     public function testRenderEnvironment()
     {
         $env = rand();
-        $builder = new \Cron\CronBundle\Cron\CommandBuilder($env);
+        $builder = new \Effiana\CronBundle\Cron\CommandBuilder($env);
 
         $this->assertRegExp(sprintf('/--env=%s$/', $env), $builder->build(''));
     }

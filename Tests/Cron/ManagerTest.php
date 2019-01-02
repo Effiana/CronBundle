@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-use Cron\CronBundle\Cron\Manager;
+use Effiana\CronBundle\Cron\Manager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
@@ -110,7 +110,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->getManager($registry);
 
-        $manager->deleteJob(new \Cron\CronBundle\Entity\CronJob());
+        $manager->deleteJob(new \Effiana\CronBundle\Entity\CronJob());
     }
 
     public function testSaveJob()
@@ -131,7 +131,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $manager = $this->getManager($registry);
 
-        $manager->saveJob(new \Cron\CronBundle\Entity\CronJob());
+        $manager->saveJob(new \Effiana\CronBundle\Entity\CronJob());
     }
 
     protected function getManagerWithRepo($repoCall)

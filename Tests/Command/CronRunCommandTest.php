@@ -18,7 +18,7 @@ class CronRunCommandTest extends WebTestCase
 {
     public function testNoJobs()
     {
-        $manager = $this->getMockBuilder('Cron\CronBundle\Cron\Manager')
+        $manager = $this->getMockBuilder('Effiana\CronBundle\Cron\Manager')
             ->disableOriginalConstructor()
             ->getMock();
         $manager
@@ -26,7 +26,7 @@ class CronRunCommandTest extends WebTestCase
             ->method('saveReports')
             ->with($this->isType('array'));
 
-        $resolver = $this->getMockBuilder('Cron\CronBundle\Cron\Resolver')
+        $resolver = $this->getMockBuilder('Effiana\CronBundle\Cron\Resolver')
             ->disableOriginalConstructor()
             ->getMock();
         $resolver
@@ -44,7 +44,7 @@ class CronRunCommandTest extends WebTestCase
 
     public function testOneJob()
     {
-        $manager = $this->getMockBuilder('Cron\CronBundle\Cron\Manager')
+        $manager = $this->getMockBuilder('Effiana\CronBundle\Cron\Manager')
             ->disableOriginalConstructor()
             ->getMock();
         $manager
@@ -54,7 +54,7 @@ class CronRunCommandTest extends WebTestCase
 
         $job = new \Cron\Job\ShellJob();
 
-        $resolver = $this->getMockBuilder('Cron\CronBundle\Cron\Resolver')
+        $resolver = $this->getMockBuilder('Effiana\CronBundle\Cron\Resolver')
             ->disableOriginalConstructor()
             ->getMock();
         $resolver
@@ -75,10 +75,10 @@ class CronRunCommandTest extends WebTestCase
     public function testNamedJob()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $manager = $this->getMockBuilder('Cron\CronBundle\Cron\Manager')
+        $manager = $this->getMockBuilder('Effiana\CronBundle\Cron\Manager')
             ->disableOriginalConstructor()
             ->getMock();
-        $resolver = $this->getMockBuilder('Cron\CronBundle\Cron\Resolver')
+        $resolver = $this->getMockBuilder('Effiana\CronBundle\Cron\Resolver')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -100,7 +100,7 @@ class CronRunCommandTest extends WebTestCase
         $kernel->getContainer()->set('cron.resolver', $resolver);
 
         $application = new Application($kernel);
-        $application->add(new \Cron\CronBundle\Command\CronRunCommand());
+        $application->add(new \Effiana\CronBundle\Command\CronRunCommand());
 
         return $application->find('cron:run');
     }

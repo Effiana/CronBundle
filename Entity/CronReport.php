@@ -1,6 +1,6 @@
 <?php
 
-namespace Cron\CronBundle\Entity;
+namespace Effiana\CronBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CronReport
  *
  * @ORM\Table(name="cron_report")
- * @ORM\Entity(repositoryClass="Cron\CronBundle\Entity\CronReportRepository")
+ * @ORM\Entity(repositoryClass="Effiana\CronBundle\Entity\CronReportRepository")
  */
 class CronReport
 {
@@ -45,7 +45,7 @@ class CronReport
 
     /**
      * @ORM\ManyToOne(targetEntity="CronJob", inversedBy="reports")
-     * @ORM\JoinColumn(onDelete="CASCADE")
+     * @ORM\JoinColumn(name="job_id", referencedColumnName="id", onDelete="CASCADE")
      * @var CronJob
      */
     protected $job;

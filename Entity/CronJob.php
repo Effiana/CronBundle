@@ -1,6 +1,6 @@
 <?php
 
-namespace Cron\CronBundle\Entity;
+namespace Effiana\CronBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * CronJob
  *
  * @ORM\Table(name="cron_job", uniqueConstraints={@ORM\UniqueConstraint(name="un_name", columns={"name"})})
- * @ORM\Entity(repositoryClass="Cron\CronBundle\Entity\CronJobRepository")
+ * @ORM\Entity(repositoryClass="Effiana\CronBundle\Entity\CronJobRepository")
  */
 class CronJob
 {

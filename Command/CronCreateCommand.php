@@ -7,9 +7,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Cron\CronBundle\Command;
+namespace Effiana\CronBundle\Command;
 
-use Cron\CronBundle\Entity\CronJob;
+use Effiana\CronBundle\Entity\CronJob;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ConfirmationQuestion;

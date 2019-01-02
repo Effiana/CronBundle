@@ -1,6 +1,6 @@
 <?php
 
-namespace Cron\CronBundle\Entity;
+namespace Effiana\CronBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

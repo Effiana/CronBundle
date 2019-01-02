@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cron\CronBundle\Cron;
+namespace Effiana\CronBundle\Cron;
 
 use Symfony\Component\Process\PhpExecutableFinder;
 

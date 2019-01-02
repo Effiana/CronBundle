@@ -7,10 +7,10 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Cron\CronBundle\Command;
+namespace Effiana\CronBundle\Command;
 
 use Cron\Cron;
-use Cron\CronBundle\Entity\CronJob;
+use Effiana\CronBundle\Entity\CronJob;
 use Cron\Job\ShellJob;
 use Cron\Resolver\ArrayResolver;
 use Cron\Schedule\CrontabSchedule;

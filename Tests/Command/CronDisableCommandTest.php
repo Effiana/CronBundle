@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-use Cron\CronBundle\Command\CronDisableCommand;
+use Effiana\CronBundle\Command\CronDisableCommand;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -19,7 +19,7 @@ class CronDisableCommandTest extends WebTestCase
 {
     public function testUnknownJob()
     {
-        $manager = $this->getMockBuilder('Cron\CronBundle\Cron\Manager')
+        $manager = $this->getMockBuilder('Effiana\CronBundle\Cron\Manager')
             ->disableOriginalConstructor()
             ->getMock();
         $manager
@@ -38,11 +38,11 @@ class CronDisableCommandTest extends WebTestCase
 
     public function testDisable()
     {
-        $manager = $this->getMockBuilder('Cron\CronBundle\Cron\Manager')
+        $manager = $this->getMockBuilder('Effiana\CronBundle\Cron\Manager')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $job = new \Cron\CronBundle\Entity\CronJob();
+        $job = new \Effiana\CronBundle\Entity\CronJob();
         $manager
             ->expects($this->once())
             ->method('getJobByName')
@@ -61,7 +61,7 @@ class CronDisableCommandTest extends WebTestCase
 
     public function testNoJobArgument()
     {
-        $manager = $this->getMockBuilder('Cron\CronBundle\Cron\Manager')
+        $manager = $this->getMockBuilder('Effiana\CronBundle\Cron\Manager')
             ->disableOriginalConstructor()
             ->getMock();
         $command = $this->getCommand($manager);
