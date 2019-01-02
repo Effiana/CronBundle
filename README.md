@@ -20,24 +20,18 @@ composer require effiana/cron-bundle
 
 2. Add the bundle to your application kernel:
 ```php
-// app/AppKernel.php
-public function registerBundles()
-{
-    // ...
-    $bundle = array(
-        // ...
-        new Effiana\CronBundle\CronCronBundle(),
-    );
-    // ...
-
-    return $bundles;
-}
+// config/bundles.php
+Effiana\CronBundle\EffianaCronBundle::class => ['all' => true],
 ```
 
 3. Update your DB schema
 ```shell
 bin/console make:migration
 bin/console doctrine:migrations:migrate
+
+OR
+
+bin/console effiana:migration:load --force
 ```
 
 4. Start using the bundle:
@@ -109,19 +103,19 @@ bin/console cron:stop
 ```
 Stops the background cron daemon started with `cron:start`. This is not applicable when the daemon was started with `--blocking`.
 
-If you would like to help, take a look at the [list of issues](http://github.com/Cron/CronBundle/issues).
+If you would like to help, take a look at the [list of issues](http://github.com/Effiana/CronBundle/issues).
 
 Requirements
 ------------
 
-PHP 5.5.9 or above
+PHP 7.2 or above
 
 Author and contributors
 -----------------------
 
 Dries De Peuter - <dries@nousefreak.be> - <http://nousefreak.be>
 
-See also the list of [contributors](https://github.com/Cron/CronBundle/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/Effiana/CronBundle/contributors) who participated in this project.
 
 License
 -------
