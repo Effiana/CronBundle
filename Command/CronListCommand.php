@@ -13,6 +13,7 @@ use Effiana\CronBundle\Entity\CronJob;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
@@ -33,12 +34,21 @@ class CronListCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
         $jobs = $this->queryJobs();
-
+        $headers = ['Cron schedule', 'Name', 'Command', 'Enabled'];
+        $rows = [];
         foreach ($jobs as $job) {
-            $state = $job['enabled'] ? 'x' : ' ';
-            $output->writeln(sprintf(' [%s] %s %s', $state, $job['name'], $job['schedule']));
+            $rows[] = [
+                $job['schedule'],
+                $job['name'],
+                $job['command'],
+                $job['enabled'] ? 'x' : '',
+            ];
         }
+
+
+        $io->table($headers, $rows);
     }
 
     /**
