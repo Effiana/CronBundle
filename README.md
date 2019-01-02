@@ -1,9 +1,9 @@
 Cron Bundle
 ===========
 
- [![Packagist](https://img.shields.io/packagist/v/cron/cron-bundle.svg?style=flat-square)](https://packagist.org/packages/cron/cron-bundle)
- [![Build Status](https://img.shields.io/travis/Cron/Symfony-Bundle.svg?style=flat-square)](https://travis-ci.org/Cron/Symfony-Bundle)
- [![Packagist](https://img.shields.io/packagist/dt/Cron/Cron-Bundle.svg?style=flat-square)](https://packagist.org/packages/cron/cron-bundle)
+ [![Packagist](https://img.shields.io/packagist/v/effiana/cron-bundle.svg?style=flat-square)](https://packagist.org/packages/effiana/cron-bundle)
+ [![Build Status](https://img.shields.io/travis/effiana/cron-bundle.svg?style=flat-square)](https://travis-ci.org/Cron/Symfony-Bundle)
+ [![Packagist](https://img.shields.io/packagist/dt/effiana/cron-bundle.svg?style=flat-square)](https://packagist.org/packages/effiana/cron-bundle)
  [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
  
 [Cron](https://github.com/Effiana/Cron) integration for symfony.
@@ -15,7 +15,7 @@ Installing this bundle can be done through these simple steps:
 
 1. Add the bundle to your project as a composer dependency:
 ```shell
-composer require cron/cron-bundle
+composer require effiana/cron-bundle
 ```
 
 2. Add the bundle to your application kernel:
