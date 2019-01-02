@@ -1,5 +1,5 @@
 {
-    "name": "cron/cron-bundle",
+    "name": "effiana/cron-bundle",
     "type": "symfony-bundle",
     "description": "Symfony cron",
     "license": "MIT",
@@ -10,9 +10,9 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9",
-        "symfony/framework-bundle": "^3.4|^4.0",
-        "cron/cron": "^1.0.1",
+        "php": "7.2.*",
+        "symfony/symfony": "4.*",
+        "effiana/cron": "^1.0.1",
         "doctrine/doctrine-bundle": "~1.4",
         "doctrine/orm": "~2.4,>=2.4.5"
     },
