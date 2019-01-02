@@ -111,6 +111,7 @@ class CronRunCommand extends ContainerAwareCommand
      */
     protected function queryJob($jobName)
     {
+        /** @var CronJob $job */
         $job = $this->getContainer()->get('cron.manager')
             ->getJobByName($jobName);
 
