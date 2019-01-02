@@ -10,10 +10,10 @@
 namespace Effiana\CronBundle\Cron;
 
 use Effiana\CronBundle\Entity\CronJob;
-use Cron\Job\JobInterface;
-use Cron\Job\ShellJob;
-use Cron\Resolver\ResolverInterface;
-use Cron\Schedule\CrontabSchedule;
+use Effiana\Cron\Job\JobInterface;
+use Effiana\Cron\Job\ShellJob;
+use Effiana\Cron\Resolver\ResolverInterface;
+use Effiana\Cron\Schedule\CrontabSchedule;
 use Symfony\Component\Process\PhpExecutableFinder;
 
 /**

@@ -9,11 +9,11 @@
  */
 namespace Effiana\CronBundle\Command;
 
-use Cron\Cron;
+use Effiana\Cron\Cron;
 use Effiana\CronBundle\Entity\CronJob;
-use Cron\Job\ShellJob;
-use Cron\Resolver\ArrayResolver;
-use Cron\Schedule\CrontabSchedule;
+use Effiana\Cron\Job\ShellJob;
+use Effiana\Cron\Resolver\ArrayResolver;
+use Effiana\Cron\Schedule\CrontabSchedule;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -53,7 +53,7 @@ class CronRunCommand extends ContainerAwareCommand
         $cron->setResolver($resolver);
 
         $time = microtime(true);
-        /** @var \Cron\Report\CronReport $dbReport */
+        /** @var \Effiana\Cron\Report\CronReport $dbReport */
         $dbReport = $cron->run();
 
         while ($cron->isRunning()) {}
@@ -63,7 +63,7 @@ class CronRunCommand extends ContainerAwareCommand
         $reports = $dbReport->getReports();
         $manager->saveReports($reports);
 
-        /** @var \Cron\Report\JobReport $report */
+        /** @var \Effiana\Cron\Report\JobReport $report */
         foreach ($reports as $report) {
             $output->writeln(implode("\n", $report->getError()));
         }

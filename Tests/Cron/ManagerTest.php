@@ -76,11 +76,11 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
 
         $manager = $this->getManager($registry);
 
-        $job = new \Cron\Job\ShellJob();
+        $job = new \Effiana\Cron\Job\ShellJob();
         $job->setCommand('ls');
         $job->raw = '';
 
-        $report = $this->getMockBuilder('Cron\Report\JobReport', array(), array($job))->getMock();
+        $report = $this->getMockBuilder('Effiana\Cron\Report\JobReport', array(), array($job))->getMock();
         $report->expects($this->any())
             ->method('getJob')
             ->will($this->returnValue($job));

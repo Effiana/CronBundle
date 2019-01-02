@@ -52,7 +52,7 @@ class CronRunCommandTest extends WebTestCase
             ->method('saveReports')
             ->with($this->isType('array'));
 
-        $job = new \Cron\Job\ShellJob();
+        $job = new \Effiana\Cron\Job\ShellJob();
 
         $resolver = $this->getMockBuilder('Effiana\CronBundle\Cron\Resolver')
             ->disableOriginalConstructor()
