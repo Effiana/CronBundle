@@ -1,28 +1,29 @@
 parameters:
-    cron.resolver.class:        Effiana\CronBundle\Cron\Resolver
-    cron.manager.class:         Effiana\CronBundle\Cron\Manager
-    cron.command_builder.class: Effiana\CronBundle\Cron\CommandBuilder
-    cron.executor.class:        Cron\Executor\Executor
-    cron.validator.class:       Cron\Validator\CrontabValidator
+  cron.resolver.class:        Effiana\CronBundle\Cron\Resolver
+  cron.manager.class:         Effiana\CronBundle\Cron\Manager
+  cron.command_builder.class: Effiana\CronBundle\Cron\CommandBuilder
+  cron.executor.class:        Cron\Executor\Executor
+  cron.validator.class:       Cron\Validator\CrontabValidator
 
 services:
-    Effiana\CronBundle\Command\:
-        resource: '../../Command'
-        tags: [console.command]
+  Effiana\CronBundle\Command\:
+    resource: '../../Command'
+    tags: [console.command]
 
-    cron.resolver:
-        class: "%cron.resolver.class%"
-        arguments: ["@cron.manager", "@cron.command_builder", "%kernel.root_dir%"]
-        public: true
-    cron.manager:
-        class: "%cron.manager.class%"
-        arguments: ["@doctrine"]
-        public: true
-    cron.executor:
-        class: "%cron.executor.class%"
-        public: true
-    cron.command_builder:
-        class: "%cron.command_builder.class%"
-        arguments: ["%kernel.environment%"]
-    cron.validator:
-        class: "%cron.validator.class%"
+  cron.resolver:
+    class: "%cron.resolver.class%"
+    arguments: ["@cron.manager", "@cron.command_builder", "%kernel.root_dir%"]
+    public: true
+  cron.manager:
+    class: "%cron.manager.class%"
+    arguments: ["@doctrine"]
+    public: true
+  cron.executor:
+    class: "%cron.executor.class%"
+    public: true
+  cron.command_builder:
+    class: "%cron.command_builder.class%"
+    arguments: ["%kernel.environment%"]
+  cron.validator:
+    public: true
+    class: "%cron.validator.class%"
