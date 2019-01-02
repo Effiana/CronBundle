@@ -62,7 +62,7 @@ class EffianaCronBundleInstaller implements Installation
            $table->addColumn('run_at', 'datetime', ['notnull' => true]);
            $table->addColumn('run_time', 'float', ['notnull' => true]);
            $table->addColumn('exit_code', 'integer', ['notnull' => true]);
-           $table->addColumn('text', 'text', ['notnull' => true]);
+           $table->addColumn('output', 'text', ['notnull' => true]);
            $table->addColumn('job_id', 'integer', ['notnull' => true]);
            $table->setPrimaryKey(['id']);
 
