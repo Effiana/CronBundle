@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4" : {
-            "Cron\\CronBundle\\" : ""
+            "Effiana\\CronBundle\\" : ""
         }
     },
     "extra": {
