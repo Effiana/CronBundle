@@ -19,6 +19,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\VarDumper\VarDumper;
 
@@ -43,6 +44,7 @@ class CronRunCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
         $cron = new Cron();
         $cron->setExecutor($this->getContainer()->get('cron.executor'));
         if ($input->getArgument('job')) {
@@ -58,14 +60,16 @@ class CronRunCommand extends ContainerAwareCommand
 
         while ($cron->isRunning()) {}
 
-        $output->writeln('time: ' . (microtime(true) - $time));
+        $io->success('time: ' . (microtime(true) - $time));
         $manager = $this->getContainer()->get('cron.manager');
         $reports = $dbReport->getReports();
         $manager->saveReports($reports);
 
         /** @var \Effiana\Cron\Report\JobReport $report */
         foreach ($reports as $report) {
-            $output->writeln(implode("\n", $report->getError()));
+            if(!empty($report->getError())) {
+                $io->error(implode("\n", $report->getError()));
+            }
         }
     }
 

@@ -36,13 +36,13 @@ class CronListCommand extends ContainerAwareCommand
         $jobs = $this->queryJobs();
 
         foreach ($jobs as $job) {
-            $state = $job->getEnabled() ? 'x' : ' ';
-            $output->writeln(sprintf(' [%s] %s', $state, $job->getName()));
+            $state = $job['enabled'] ? 'x' : ' ';
+            $output->writeln(sprintf(' [%s] %s %s', $state, $job['name'], $job['schedule']));
         }
     }
 
     /**
-     * @return CronJob[]
+     * @return array
      */
     protected function queryJobs()
     {

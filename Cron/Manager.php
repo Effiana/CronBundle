@@ -7,108 +7,55 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Effiana\CronBundle\Cron;
+namespace Effiana\CronBundle\Command;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Effiana\CronBundle\Entity\CronJob;
-use Effiana\CronBundle\Entity\CronJobRepository;
-use Effiana\CronBundle\Entity\CronReport;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
  */
-class Manager
+class CronListCommand extends ContainerAwareCommand
 {
     /**
-     * @var EntityManagerInterface
+     * {@inheritdoc}
      */
-    protected $manager;
-
-    /**
-     * @param RegistryInterface $registry
-     */
-    function __construct(RegistryInterface $registry)
+    protected function configure()
     {
-        $this->manager = $registry->getManagerForClass(CronJob::class);
+        $this->setName('cron:list')
+            ->setDescription('List all available crons');
     }
 
     /**
-     * @return CronJobRepository
+     * {@inheritdoc}
      */
-    protected function getJobRepo()
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
-        return $this->manager->getRepository(CronJob::class);
-    }
-
-    /**
-     * @param CronReport[] $reports
-     */
-    public function saveReports(array $reports)
-    {
-        foreach ($reports as $report) {
-            $dbReport = new CronReport();
-            $dbReport->setJob($report->getJob()->raw);
-            $dbReport->setOutput(implode("\n", (array) $report->getOutput()));
-            $dbReport->setExitCode($report->getJob()->getProcess()->getExitCode());
-            $dbReport->setRunAt(\DateTime::createFromFormat('U.u', (string) $report->getStartTime()));
-            $dbReport->setRunTime($report->getEndTime() - $report->getStartTime());
-            $this->manager->persist($dbReport);
+        $io = new SymfonyStyle($input, $output);
+        $jobs = $this->queryJobs();
+        $headers = ['Cron schedule', 'Name', 'Command', 'Enabled'];
+        $rows = [];
+        foreach ($jobs as $job) {
+            $rows[] = [
+                $job['schedule'],
+                $job['name'],
+                $job['command'],
+                $job['enabled'] ? 'x' : '',
+            ];
         }
-        $this->manager->flush();
+
+
+        $io->table($headers, $rows);
     }
 
     /**
-     * @return CronJob[]
+     * @return array
      */
-    public function listJobs()
+    protected function queryJobs()
     {
-        return $this->getJobRepo()
-            ->findBy(array(), array(
-                    'name' => 'asc',
-                ));
-    }
-
-    /**
-     * @return CronJob[]
-     */
-    public function listEnabledJobs()
-    {
-        return $this->getJobRepo()
-            ->findBy(array(
-                    'enabled' => 1,
-                ), array(
-                    'name' => 'asc',
-                ));
-    }
-
-    /**
-     * @param CronJob $job
-     */
-    public function saveJob(CronJob $job)
-    {
-        $this->manager->persist($job);
-        $this->manager->flush();
-    }
-
-    /**
-     * @param  string  $name
-     * @return CronJob|object
-     */
-    public function getJobByName($name)
-    {
-        return $this->getJobRepo()
-            ->findOneBy(array(
-                    'name' => $name,
-                ));
-    }
-
-    /**
-     * @param CronJob $job
-     */
-    public function deleteJob(CronJob $job)
-    {
-        $this->manager->remove($job);
-        $this->manager->flush();
+        return $this->getContainer()->get('cron.manager')->listJobs();
     }
 }
