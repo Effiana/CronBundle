@@ -6,7 +6,7 @@ Cron Bundle
  [![Packagist](https://img.shields.io/packagist/dt/Cron/Cron-Bundle.svg?style=flat-square)](https://packagist.org/packages/cron/cron-bundle)
  [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
  
-[Cron](https://github.com/Cron/Cron) integration for symfony.
+[Cron](https://github.com/Effiana/Cron) integration for symfony.
 
 Installation
 ------------
