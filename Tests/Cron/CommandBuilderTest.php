@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+namespace Tests\Cron;
 use Effiana\CronBundle\Cron\Manager;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
@@ -27,7 +27,7 @@ class CommandBuilderTest extends WebTestCase
     {
         $kernel = $this->createKernel();
         $kernel->boot();
-        $builder = $kernel->getContainer()->get('cron.command_builder');
+        $builder = $kernel->getContainer()->get('Effiana\CronBundle\Cron\CommandBuilder');
 
         $this->assertRegExp(sprintf('/ --env=%s$/', 'test'), $builder->build(''));
     }

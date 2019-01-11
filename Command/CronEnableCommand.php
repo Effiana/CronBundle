@@ -9,8 +9,9 @@
  */
 namespace Effiana\CronBundle\Command;
 
+use Effiana\CronBundle\Cron\Manager;
 use Effiana\CronBundle\Entity\CronJob;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,8 +19,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
  */
-class CronEnableCommand extends ContainerAwareCommand
+class CronEnableCommand extends Command
 {
+    private $manager;
+
+    public function __construct(Manager $manager)
+    {
+        $this->manager = $manager;
+
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -43,8 +53,7 @@ class CronEnableCommand extends ContainerAwareCommand
 
         $job->setEnabled(true);
 
-        $this->getContainer()->get('cron.manager')
-            ->saveJob($job);
+        $this->manager->saveJob($job);
 
         $output->writeln(sprintf('Cron "%s" enabled', $job->getName()));
     }
@@ -55,7 +64,6 @@ class CronEnableCommand extends ContainerAwareCommand
      */
     protected function queryJob($jobName)
     {
-        return $this->getContainer()->get('cron.manager')
-            ->getJobByName($jobName);
+        return $this->manager->getJobByName($jobName);
     }
 }

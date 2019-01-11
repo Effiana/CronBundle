@@ -7,9 +7,13 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+namespace Tests\Cron;
+use Effiana\Cron\Report\JobReport;
 use Effiana\CronBundle\Cron\Manager;
+use Effiana\CronBundle\Entity\CronJob;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\VarDumper\VarDumper;
+
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
  */
@@ -80,7 +84,7 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
         $job->setCommand('ls');
         $job->raw = '';
 
-        $report = $this->getMockBuilder('Effiana\Cron\Report\JobReport', array(), array($job))->getMock();
+        $report = $this->getMockBuilder(JobReport::class)->setConstructorArgs([$job])->getMock();
         $report->expects($this->any())
             ->method('getJob')
             ->will($this->returnValue($job));
@@ -149,27 +153,26 @@ class ManagerTest extends \PHPUnit\Framework\TestCase
             ->expects($this->any())
             ->method('getRepository')
             ->will($this->returnValue($jobRepo));
-
         return $this->getManager($registry);
     }
 
     protected function buildRepo()
     {
-        return $this->getMockBuilder('Doctrine\ORM\EntityRepository')
+        return $this->getMockBuilder(\Doctrine\ORM\EntityRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     protected function buildEm()
     {
-        return $this->getMockBuilder('Doctrine\Common\Persistence\ObjectManager')
+        return $this->getMockBuilder(\Doctrine\Common\Persistence\ObjectManager::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
     protected function buildRegistry()
     {
-        return $this->getMockBuilder('Doctrine\Bundle\DoctrineBundle\Registry')
+        return $this->getMockBuilder(\Doctrine\Bundle\DoctrineBundle\Registry::class)
             ->disableOriginalConstructor()
             ->getMock();
     }

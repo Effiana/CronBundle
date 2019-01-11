@@ -10,24 +10,53 @@
 namespace Effiana\CronBundle\Command;
 
 use Effiana\Cron\Cron;
-use Effiana\CronBundle\Entity\CronJob;
+use Effiana\Cron\Executor\Executor;
 use Effiana\Cron\Job\ShellJob;
 use Effiana\Cron\Resolver\ArrayResolver;
 use Effiana\Cron\Schedule\CrontabSchedule;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Effiana\CronBundle\Cron\Manager;
+use Effiana\CronBundle\Cron\Resolver;
+use Effiana\CronBundle\Entity\CronJob;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
  */
-class CronRunCommand extends ContainerAwareCommand
+class CronRunCommand extends Command
 {
+    /**
+     * @var Manager
+     */
+    private $manager;
+    /**
+     * @var Executor
+     */
+    private $executor;
+    /**
+     * @var Resolver
+     */
+    private $resolver;
+
+    /**
+     * CronRunCommand constructor.
+     * @param Manager $manager
+     * @param Executor $executor
+     * @param Resolver $resolver
+     */
+    public function __construct(Manager $manager, Executor $executor, Resolver $resolver)
+    {
+        $this->manager = $manager;
+        $this->executor = $executor;
+        $this->resolver = $resolver;
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -46,11 +75,11 @@ class CronRunCommand extends ContainerAwareCommand
     {
         $io = new SymfonyStyle($input, $output);
         $cron = new Cron();
-        $cron->setExecutor($this->getContainer()->get('cron.executor'));
+        $cron->setExecutor($this->executor);
         if ($input->getArgument('job')) {
             $resolver = $this->getJobResolver($input->getArgument('job'), $input->hasOption('force'));
         } else {
-            $resolver = $this->getContainer()->get('cron.resolver');
+            $resolver = $this->resolver;
         }
         $cron->setResolver($resolver);
 
@@ -61,9 +90,8 @@ class CronRunCommand extends ContainerAwareCommand
         while ($cron->isRunning()) {}
 
         $io->success('time: ' . (microtime(true) - $time));
-        $manager = $this->getContainer()->get('cron.manager');
         $reports = $dbReport->getReports();
-        $manager->saveReports($reports);
+        $this->manager->saveReports($reports);
 
         /** @var \Effiana\Cron\Report\JobReport $report */
         foreach ($reports as $report) {
@@ -112,8 +140,7 @@ class CronRunCommand extends ContainerAwareCommand
     protected function queryJob($jobName)
     {
         /** @var CronJob $job */
-        $job = $this->getContainer()->get('cron.manager')
-            ->getJobByName($jobName);
+        $job = $this->manager->getJobByName($jobName);
 
         return ($job && $job->getEnabled()) ? $job : null;
     }

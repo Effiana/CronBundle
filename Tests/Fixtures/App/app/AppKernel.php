@@ -25,7 +25,7 @@ class AppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return sys_get_temp_dir().'/CronSymfonyBundle/cache';
+        return sys_get_temp_dir().'/EffianaCronBundle/cache';
     }
 
     /**
@@ -33,6 +33,6 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return sys_get_temp_dir().'/CronSymfonyBundle/logs';
+        return sys_get_temp_dir().'/EffianaCronBundle/logs';
     }
 }

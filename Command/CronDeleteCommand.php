@@ -9,18 +9,29 @@
  */
 namespace Effiana\CronBundle\Command;
 
+use Effiana\CronBundle\Cron\Manager;
 use Effiana\CronBundle\Entity\CronJob;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
  */
-class CronDeleteCommand extends ContainerAwareCommand
+class CronDeleteCommand extends Command
 {
+    private $manager;
+
+    public function __construct(Manager $manager)
+    {
+        $this->manager = $manager;
+
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -54,8 +65,7 @@ class CronDeleteCommand extends ContainerAwareCommand
             return;
         }
 
-        $this->getContainer()->get('cron.manager')
-            ->deleteJob($job);
+        $this->manager->deleteJob($job);
 
         $output->writeln(sprintf('<info>Cron "%s" was deleted.</info>', $job->getName()));
     }
@@ -66,8 +76,7 @@ class CronDeleteCommand extends ContainerAwareCommand
      */
     protected function queryJob($jobName)
     {
-        return $this->getContainer()->get('cron.manager')
-            ->getJobByName($jobName);
+        return $this->manager->getJobByName($jobName);
     }
 
     /**

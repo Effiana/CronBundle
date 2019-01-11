@@ -7,7 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
+namespace Tests\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -34,7 +34,11 @@ class CronRunCommandTest extends WebTestCase
             ->method('resolve')
             ->will($this->returnValue(array()));
 
-        $command = $this->getCommand($manager, $resolver);
+        $executor = $this->getMockBuilder('Effiana\Cron\Executor\Executor')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $command = $this->getCommand($manager, $executor, $resolver);
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array());
@@ -63,8 +67,10 @@ class CronRunCommandTest extends WebTestCase
             ->will($this->returnValue(array(
                         $job
                     )));
-
-        $command = $this->getCommand($manager, $resolver);
+        $executor = $this->getMockBuilder('Effiana\Cron\Executor\Executor')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $command = $this->getCommand($manager, $executor, $resolver);
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array());
@@ -74,15 +80,18 @@ class CronRunCommandTest extends WebTestCase
 
     public function testNamedJob()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $manager = $this->getMockBuilder('Effiana\CronBundle\Cron\Manager')
             ->disableOriginalConstructor()
             ->getMock();
         $resolver = $this->getMockBuilder('Effiana\CronBundle\Cron\Resolver')
             ->disableOriginalConstructor()
             ->getMock();
+        $executor = $this->getMockBuilder('Effiana\Cron\Executor\Executor')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-        $command = $this->getCommand($manager, $resolver);
+        $command = $this->getCommand($manager, $executor, $resolver);
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
@@ -92,15 +101,15 @@ class CronRunCommandTest extends WebTestCase
         $this->assertContains('time:', $commandTester->getDisplay());
     }
 
-    protected function getCommand($manager, $resolver)
+    protected function getCommand($manager, $executor, $resolver)
     {
         $kernel = $this->createKernel();
         $kernel->boot();
-        $kernel->getContainer()->set('cron.manager', $manager);
-        $kernel->getContainer()->set('cron.resolver', $resolver);
+        $kernel->getContainer()->set('Effiana\CronBundle\Cron\Manager', $manager);
+        $kernel->getContainer()->set('Effiana\CronBundle\Cron\Resolver', $resolver);
 
         $application = new Application($kernel);
-        $application->add(new \Effiana\CronBundle\Command\CronRunCommand());
+        $application->add(new \Effiana\CronBundle\Command\CronRunCommand($manager, $executor, $resolver));
 
         return $application->find('cron:run');
     }

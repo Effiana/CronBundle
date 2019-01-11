@@ -9,18 +9,35 @@
  */
 namespace Effiana\CronBundle\Command;
 
+use Effiana\Cron\Validator\CrontabValidator;
+use Effiana\CronBundle\Cron\Manager;
 use Effiana\CronBundle\Entity\CronJob;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Question\Question;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
  */
-class CronCreateCommand extends ContainerAwareCommand
+class CronCreateCommand extends Command
 {
+    private $manager;
+    /**
+     * @var CrontabValidator
+     */
+    private $validator;
+
+    public function __construct(Manager $manager, CrontabValidator $validator)
+    {
+        $this->manager = $manager;
+        $this->validator = $validator;
+
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -80,8 +97,7 @@ class CronCreateCommand extends ContainerAwareCommand
         $enabled = $this->getQuestionHelper()->ask($input, $output, $question);
         $job->setEnabled($enabled);
 
-        $this->getContainer()->get('cron.manager')
-            ->saveJob($job);
+        $this->manager->saveJob($job);
 
         $output->writeln('');
         $output->writeln(sprintf('<info>Cron "%s" was created..</info>', $job->getName()));
@@ -125,14 +141,13 @@ class CronCreateCommand extends ContainerAwareCommand
     /**
      * Validate the schedule.
      *
-     * @param  string                    $schedule
+     * @param  string $schedule
      * @return string
-     * @throws \InvalidArgumentException
+     * @throws \Effiana\Cron\Exception\InvalidPatternException
      */
     protected function validateSchedule($schedule)
     {
-        $this->getContainer()->get('cron.validator')
-            ->validate($schedule);
+        $this->validator->validate($schedule);
 
         return $schedule;
     }
@@ -143,8 +158,7 @@ class CronCreateCommand extends ContainerAwareCommand
      */
     protected function queryJob($jobName)
     {
-        return $this->getContainer()->get('cron.manager')
-            ->getJobByName($jobName);
+        return $this->manager->getJobByName($jobName);
     }
 
     /**

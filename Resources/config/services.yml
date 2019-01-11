@@ -1,10 +1,3 @@
-parameters:
-  cron.resolver.class:        Effiana\CronBundle\Cron\Resolver
-  cron.manager.class:         Effiana\CronBundle\Cron\Manager
-  cron.command_builder.class: Effiana\CronBundle\Cron\CommandBuilder
-  cron.executor.class:        Effiana\Cron\Executor\Executor
-  cron.validator.class:       Effiana\Cron\Validator\CrontabValidator
-
 services:
   Effiana\CronBundle\Services\CommandParser:
     public: true
@@ -18,23 +11,29 @@ services:
     - { name: form.type, alias: command_choice }
 
   Effiana\CronBundle\Command\:
+    autowire: true
+    autoconfigure: true
     resource: '../../Command'
     tags: [console.command]
 
-  cron.resolver:
-    class: "%cron.resolver.class%"
-    arguments: ["@cron.manager", "@cron.command_builder", "%kernel.root_dir%"]
+  Effiana\CronBundle\Cron\Resolver:
+    autowire: true
     public: true
-  cron.manager:
-    class: "%cron.manager.class%"
+    arguments:
+    - "@Effiana\\CronBundle\\Cron\\Manager"
+    - "@Effiana\\CronBundle\\Cron\\CommandBuilder"
+    - "%kernel.root_dir%"
+  Effiana\CronBundle\Cron\Manager:
+    autowire: true
     arguments: ["@doctrine"]
     public: true
-  cron.executor:
-    class: "%cron.executor.class%"
+  Effiana\Cron\Executor\Executor:
+    autowire: true
     public: true
-  cron.command_builder:
-    class: "%cron.command_builder.class%"
+  Effiana\CronBundle\Cron\CommandBuilder:
+    autowire: true
+    public: true
     arguments: ["%kernel.environment%"]
-  cron.validator:
+
+  Effiana\Cron\Validator\CrontabValidator:
     public: true
-    class: "%cron.validator.class%"

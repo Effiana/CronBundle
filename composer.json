@@ -25,12 +25,17 @@
             "Effiana\\CronBundle\\" : ""
         }
     },
+    "autoload-dev": {
+        "psr-4": { "Tests\\": "Tests/" },
+        "files": [ "Tests/Fixtures/App/app/AppKernel.php" ]
+    },
+
     "extra": {
         "branch-alias": {
             "dev-master": "2.0-dev"
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0"
+        "symfony/phpunit-bridge": "*"
     }
 }

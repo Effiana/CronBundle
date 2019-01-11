@@ -7,6 +7,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+namespace Tests\Command;
 
 use Effiana\CronBundle\Command\CronDisableCommand;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -28,7 +29,7 @@ class CronDisableCommandTest extends WebTestCase
 
         $command = $this->getCommand($manager);
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
@@ -66,7 +67,7 @@ class CronDisableCommandTest extends WebTestCase
             ->getMock();
         $command = $this->getCommand($manager);
 
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array());
@@ -76,10 +77,10 @@ class CronDisableCommandTest extends WebTestCase
     {
         $kernel = $this->createKernel();
         $kernel->boot();
-        $kernel->getContainer()->set('cron.manager', $manager);
+        $kernel->getContainer()->set('Effiana\CronBundle\Cron\Manager', $manager);
 
         $application = new Application($kernel);
-        $application->add(new CronDisableCommand());
+        $application->add(new CronDisableCommand($manager));
 
         return $application->find('cron:disable');
     }

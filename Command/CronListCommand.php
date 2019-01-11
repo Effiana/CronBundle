@@ -9,8 +9,8 @@
  */
 namespace Effiana\CronBundle\Command;
 
-use Effiana\CronBundle\Entity\CronJob;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Effiana\CronBundle\Cron\Manager;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -18,8 +18,17 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
  */
-class CronListCommand extends ContainerAwareCommand
+class CronListCommand extends Command
 {
+    private $manager;
+
+    public function __construct(Manager $manager)
+    {
+        $this->manager = $manager;
+
+        parent::__construct();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -56,6 +65,6 @@ class CronListCommand extends ContainerAwareCommand
      */
     protected function queryJobs()
     {
-        return $this->getContainer()->get('cron.manager')->listJobs();
+        return $this->manager->listJobs();
     }
 }
