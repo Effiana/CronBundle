@@ -6,6 +6,17 @@ parameters:
   cron.validator.class:       Effiana\Cron\Validator\CrontabValidator
 
 services:
+  Effiana\CronBundle\Services\CommandParser:
+    public: true
+    arguments:
+    - "@kernel"
+
+  Effiana\CronBundle\Form\Type\CommandChoiceType:
+    public: true
+    autowire: true
+    tags:
+    - { name: form.type, alias: command_choice }
+
   Effiana\CronBundle\Command\:
     resource: '../../Command'
     tags: [console.command]

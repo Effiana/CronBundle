@@ -1,0 +1,84 @@
+{% extends "@ManagementSystem/Layout/base.html.twig" %}
+{% trans_default_domain 'AppSystem' %}
+{% block header_content %}
+    {{ macros.page_header('list.title'|trans) }}
+{% endblock %}
+
+{% block javascripts_head %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-confirmation/1.0.7/bootstrap-confirmation.min.js"></script>
+{% endblock %}
+
+{% block page_content %}
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="table-responsive table-stripped">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>{{ "detail.name"|trans }}</th>
+                                    <th>{{ "detail.command"|trans }}</th>
+                                    <th>{{ "detail.cronExpression"|trans }}</th>
+                                    <th>{{ "detail.actions"|trans }}</th>
+                                </tr>
+                                </thead>
+
+                                <tbody>
+                                {% for command in scheduledCommands %}
+                                    <tr {% if command.enabled == false %}class="text-muted" {% endif %}>
+                                        <td>
+                                            <a href="{{ path('effiana_cron_bundle_toggle', {'id': command.id}) }}" >
+                                                {% if command.enabled == false %}
+                                                    <span class="text-danger glyphicon glyphicon-off"></span> <span class="sr-only">&nbsp;</span>
+                                                {% else %}
+                                                    <span class="text-success glyphicon glyphicon-off"></span> <span class="sr-only">&nbsp;</span>
+                                                {% endif %}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ command.name }}
+                                        </td>
+                                        <td>
+                                            {{ command.command }}
+                                        </td>
+                                        <td>
+                                            {{ command.schedule }}
+                                        </td>
+                                        <td style="min-width: 90px;">
+                                            <a href="{{ path('effiana_cron_bundle_edit', {id: command.id}) }}" >
+                                                <span class="text-info glyphicon glyphicon-pencil"></span> <span class="sr-only">{{ "action.edit"|trans }}</span>
+                                            </a>
+                                            <a href="#" data-href="{{ path('effiana_cron_bundle_remove', {'id': command.id}) }}" data-toggle="confirmation" data-btnOkLabel="{{ "action.delete"|trans }}" data-title="{{ "confirm.delete"|trans }}" >
+                                                <span class="text-danger glyphicon glyphicon-trash"></span> <span class="sr-only">{{ "action.delete"|trans }}</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <a href="{{ path('effiana_cron_bundle_add') }}" class="btn btn-primary btn-lg pull-right" role="button">{{ "action.new"|trans }} »</a>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="text/javascript">
+        // Enable bootstrap-confirmation
+        $(document).ready(function () {
+            //$('[data-toggle="confirmation"]').confirmation();
+            $('[data-toggle="confirmation"]').confirmation({
+                singleton: true,
+                popout: true,
+                placement: 'left'
+            });
+        });
+    </script>
+{% endblock %}
