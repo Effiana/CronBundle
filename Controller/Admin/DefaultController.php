@@ -40,6 +40,30 @@ class DefaultController extends AbstractController
             ->createQueryBuilder('cronJob')
             ->orderBy('cronJob.id', 'ASC')
             ->getQuery()->getArrayResult();
+
+        $scheduledCommandIds = array_map(function($item) {
+            return $item['id'];
+        }, $scheduledCommands);
+
+        $lastScheduledCommands = $em->getRepository('EffianaCronBundle:CronReport')
+            ->createQueryBuilder('cronReport', 'cronReport.jobId')
+            ->select('cronReport.jobId, MAX(cronReport.runAt) as runAt')
+            ->andWhere('cronReport.jobId IN(:scheduledCommandIds)')
+            ->groupBy('cronReport.jobId')
+            ->setParameters([
+                'scheduledCommandIds' => $scheduledCommandIds
+            ])
+            ->getQuery()->getArrayResult();
+
+        $scheduledCommands = array_map(function($item) use($lastScheduledCommands) {
+            $runAt = null;
+            if(isset($lastScheduledCommands[$item['id']]['runAt'])) {
+                $runAt = $lastScheduledCommands[$item['id']]['runAt'];
+            }
+            $item['runAt'] = $runAt;
+            return $item;
+        }, $scheduledCommands);
+
         return $this->render('@EffianaCron/Admin/index.html.twig', [
             'scheduledCommands' => $scheduledCommands
         ]);

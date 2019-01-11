@@ -44,11 +44,17 @@ class CronReport
     protected $output;
 
     /**
-     * @ORM\ManyToOne(targetEntity="CronJob", inversedBy="reports")
+     * @ORM\ManyToOne(targetEntity="Effiana\CronBundle\Entity\CronJob", inversedBy="reports")
      * @ORM\JoinColumn(name="job_id", referencedColumnName="id", onDelete="CASCADE")
      * @var CronJob
      */
     protected $job;
+
+    /**
+     * @ORM\Column(type="integer", name="job_id")
+     * @var integer
+     */
+    protected $jobId;
 
     /**
      * @return int

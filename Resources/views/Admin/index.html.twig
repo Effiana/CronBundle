@@ -24,6 +24,7 @@
                                     <th>{{ "detail.name"|trans }}</th>
                                     <th>{{ "detail.command"|trans }}</th>
                                     <th>{{ "detail.cronExpression"|trans }}</th>
+                                    <th>{{ "detail.lastExecution"|trans }}</th>
                                     <th>{{ "detail.actions"|trans }}</th>
                                 </tr>
                                 </thead>
@@ -48,6 +49,9 @@
                                         </td>
                                         <td>
                                             {{ command.schedule }}
+                                        </td>
+                                        <td>
+                                            {{ command.runAt }}
                                         </td>
                                         <td style="min-width: 90px;">
                                             <a href="{{ path('effiana_cron_bundle_edit', {id: command.id}) }}" >
