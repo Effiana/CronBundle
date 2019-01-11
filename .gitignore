@@ -9,3 +9,4 @@ phpunit.xml
 Vagrantfile
 .idea
 .idea/
+composer.lock
