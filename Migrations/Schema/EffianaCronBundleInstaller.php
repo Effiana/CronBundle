@@ -24,7 +24,7 @@ class EffianaCronBundleInstaller implements Installation
      */
     public function getMigrationVersion()
     {
-        return 'v2_0_3';
+        return 'v2_0_4';
     }
 
     /**
@@ -32,9 +32,9 @@ class EffianaCronBundleInstaller implements Installation
      */
     public function up(Schema $schema, QueryBag $queries)
     {
-        if(!$schema->hasTable('cron_job')) {
+        if(!$schema->hasTable('effiana_cron_job')) {
 
-            $table = $schema->createTable('cron_job');
+            $table = $schema->createTable('effiana_cron_job');
             $table->addColumn('id', 'integer', ['notnull' => true, 'autoincrement' => true]);
             $table->addColumn('name', 'string', ['default' => null, 'notnull' => true, 'length' => 191]);
             $table->addColumn('command', 'string', ['default' => null, 'notnull' => true, 'length' => 1024]);
@@ -45,11 +45,11 @@ class EffianaCronBundleInstaller implements Installation
 
             $table->setPrimaryKey(['id']);
 
-            $queries->addPostQuery('INSERT INTO cron_job SELECT nextval(\'cron_job_id_seq\') AS id, name, command, cron_expression, name AS description, TRUE as enabled FROM scheduled_command;');
+            $queries->addPostQuery('INSERT INTO cron_job SELECT nextval(\'effiana_cron_job_id_seq\') AS id, name, command, cron_expression, name AS description, TRUE as enabled FROM scheduled_command;');
         }
-        if(!$schema->hasTable('cron_report')) {
+        if(!$schema->hasTable('effiana_cron_report')) {
 
-            $table = $schema->createTable('cron_report');
+            $table = $schema->createTable('effiana_cron_report');
             $table->addColumn('id', 'integer', ['notnull' => true, 'autoincrement' => true]);
             $table->addColumn('run_at', 'datetime', ['notnull' => true]);
             $table->addColumn('run_time', 'float', ['notnull' => true]);
@@ -58,7 +58,7 @@ class EffianaCronBundleInstaller implements Installation
             $table->addColumn('job_id', 'integer', ['notnull' => true]);
             $table->setPrimaryKey(['id']);
 
-            $table->addForeignKeyConstraint('cron_job', ['job_id'], ['id']);
+            $table->addForeignKeyConstraint('effiana_cron_job', ['job_id'], ['id']);
         }
 
     }

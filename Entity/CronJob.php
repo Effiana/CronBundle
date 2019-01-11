@@ -8,8 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * CronJob
  *
- * @ORM\Table(name="cron_job", uniqueConstraints={@ORM\UniqueConstraint(name="un_name", columns={"name"})})
- * @ORM\Entity(repositoryClass="Effiana\CronBundle\Entity\CronJobRepository")
+ * @ORM\Table(name="effiana_cron_job", uniqueConstraints={@ORM\UniqueConstraint(name="un_name", columns={"name"})})
+ * @ORM\Entity(repositoryClass="Effiana\CronBundle\Entity\Repository\CronJobRepository")
  */
 class CronJob
 {

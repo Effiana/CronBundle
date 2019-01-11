@@ -11,7 +11,7 @@ namespace Effiana\CronBundle\Cron;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Effiana\CronBundle\Entity\CronJob;
-use Effiana\CronBundle\Entity\CronJobRepository;
+use Effiana\CronBundle\Entity\Repository\CronJobRepository;
 use Effiana\CronBundle\Entity\CronReport;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

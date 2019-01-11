@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CronReport
  *
- * @ORM\Table(name="cron_report")
- * @ORM\Entity(repositoryClass="Effiana\CronBundle\Entity\CronReportRepository")
+ * @ORM\Table(name="effiana_cron_report")
+ * @ORM\Entity(repositoryClass="Effiana\CronBundle\Entity\Repository\CronReportRepository")
  */
 class CronReport
 {
