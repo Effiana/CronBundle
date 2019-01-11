@@ -2,7 +2,7 @@ Cron Bundle
 ===========
 
  [![Packagist](https://img.shields.io/packagist/v/effiana/cron-bundle.svg?style=flat-square)](https://packagist.org/packages/effiana/cron-bundle)
- [![Build Status](https://img.shields.io/travis/effiana/cron-bundle.svg?style=flat-square)](https://travis-ci.org/effiana/cron-bundle)
+ [![Build Status](https://img.shields.io/travis/Effiana/CronBundle.svg?style=flat-square)](https://travis-ci.org/Effiana/CronBundle)
  [![Packagist](https://img.shields.io/packagist/dt/effiana/cron-bundle.svg?style=flat-square)](https://packagist.org/packages/effiana/cron-bundle)
  [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
  
