@@ -12,15 +12,17 @@
 
 namespace Effiana\CronBundle\Migrations\Schema\v2_0_4;
 
-use BrandOriented\DatabaseBundle\Migration\Column;
-use BrandOriented\DatabaseBundle\Migration\Migration;
-use BrandOriented\DatabaseBundle\Migration\QueryBag;
-use BrandOriented\DatabaseBundle\Migration\Extension\RenameExtension;
-use BrandOriented\DatabaseBundle\Migration\Extension\RenameExtensionAwareInterface;
-use BrandOriented\DatabaseBundle\Migration\OrderedMigrationInterface;
-use Doctrine\DBAL\Schema\ForeignKeyConstraint;
 use Doctrine\DBAL\Schema\Schema;
+use Effiana\MigrationBundle\Migration\Extension\RenameExtension;
+use Effiana\MigrationBundle\Migration\Extension\RenameExtensionAwareInterface;
+use Effiana\MigrationBundle\Migration\Migration;
+use Effiana\MigrationBundle\Migration\OrderedMigrationInterface;
+use Effiana\MigrationBundle\Migration\QueryBag;
 
+/**
+ * Class EffianaCronBundle
+ * @package Effiana\CronBundle\Migrations\Schema\v2_0_4
+ */
 class EffianaCronBundle implements Migration, RenameExtensionAwareInterface, OrderedMigrationInterface
 {
     /**
