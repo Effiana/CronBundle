@@ -12,8 +12,8 @@
 
 namespace Effiana\CronBundle\Migrations\Schema;
 
-use BrandOriented\DatabaseBundle\Migration\Installation;
-use BrandOriented\DatabaseBundle\Migration\QueryBag;
+use Effiana\MigrationBundle\Migration\Installation;
+use Effiana\MigrationBundle\Migration\QueryBag;
 use Doctrine\DBAL\Schema\Schema;
 
 
