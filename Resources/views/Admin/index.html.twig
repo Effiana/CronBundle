@@ -1,5 +1,5 @@
 {% extends "@ManagementSystem/Layout/base.html.twig" %}
-{% trans_default_domain 'AppSystem' %}
+{% import "@ManagementSystem/Layout/macros.html.twig" as macros %}
 {% block header_content %}
     {{ macros.page_header('list.title'|trans) }}
 {% endblock %}
