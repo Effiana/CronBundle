@@ -10,6 +10,7 @@
 namespace Effiana\CronBundle\Cron;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Effiana\Cron\Report\JobReport;
 use Effiana\CronBundle\Entity\CronJob;
 use Effiana\CronBundle\Entity\Repository\CronJobRepository;
 use Effiana\CronBundle\Entity\CronReport;
@@ -46,13 +47,16 @@ class Manager
      */
     public function saveReports(array $reports)
     {
+        /** @var JobReport $report */
         foreach ($reports as $report) {
             $dbReport = new CronReport();
             $dbReport->setJob($report->getJob()->raw);
             $dbReport->setOutput(implode("\n", (array) $report->getOutput()));
             $dbReport->setExitCode($report->getJob()->getProcess()->getExitCode());
-            $dbReport->setRunAt(\DateTime::createFromFormat('U.u', (string) $report->getStartTime()));
-            $dbReport->setRunTime($report->getEndTime() - $report->getStartTime());
+            $startTime = number_format($report->getStartTime(), 2, '.', '');
+
+            $dbReport->setRunAt(\DateTime::createFromFormat('U.u', (string)$startTime));
+            $dbReport->setRunTime($report->getEndTime() - $startTime);
             $this->manager->persist($dbReport);
         }
         $this->manager->flush();
