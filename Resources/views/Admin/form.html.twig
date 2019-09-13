@@ -1,5 +1,5 @@
-{% extends "@ManagementSystem/Layout/base.html.twig" %}
-{% import "@ManagementSystem/Layout/macros.html.twig" as macros %}
+{% extends "Admin/Layout/base.html.twig" %}
+{% import "Admin/Layout/macros.html.twig" as macros %}
 {% block header_content %}
     {{ macros.page_header('Create new') }}
 {% endblock %}
@@ -10,7 +10,7 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-body">
-                        {% form_theme form '@ManagementSystem/Layout/bootstrap_3_layout.html.twig' %}
+                        {% form_theme form 'Admin/Layout/bootstrap_3_layout.html.twig' %}
                         {{ form(form, {'method': 'POST'}) }}
                     </div>
                 </div>
