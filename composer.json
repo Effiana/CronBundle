@@ -19,9 +19,9 @@
         "doctrine/data-fixtures": "^1.3",
         "doctrine/doctrine-bundle": "*",
         "doctrine/doctrine-cache-bundle": "^1.3",
-        "doctrine/doctrine-migrations-bundle": "^1.3",
+        "doctrine/doctrine-migrations-bundle": "^1.3 | ^2.1",
         "doctrine/orm": "*",
-        "symfony/framework-bundle": "^4.2",
+        "symfony/framework-bundle": "^4.2 | ^5.0",
         "effiana/migration-bundle": "dev-master"
     },
     "autoload": {
