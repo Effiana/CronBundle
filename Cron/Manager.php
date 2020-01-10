@@ -14,7 +14,7 @@ use Effiana\Cron\Report\JobReport;
 use Effiana\CronBundle\Entity\CronJob;
 use Effiana\CronBundle\Entity\Repository\CronJobRepository;
 use Effiana\CronBundle\Entity\CronReport;
-use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\Bundle\DoctrineBundle\Registry as RegistryInterface;
 
 /**
  * @author Dries De Peuter <dries@nousefreak.be>
