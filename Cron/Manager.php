@@ -29,7 +29,7 @@ class Manager
     /**
      * @param RegistryInterface $registry
      */
-    function __construct(RegistryInterface $registry)
+    public function __construct($registry)
     {
         $this->manager = $registry->getManagerForClass(CronJob::class);
     }
@@ -37,7 +37,7 @@ class Manager
     /**
      * @return CronJobRepository
      */
-    protected function getJobRepo()
+    protected function getJobRepo(): CronJobRepository
     {
         return $this->manager->getRepository(CronJob::class);
     }
@@ -45,7 +45,7 @@ class Manager
     /**
      * @param CronReport[] $reports
      */
-    public function saveReports(array $reports)
+    public function saveReports(array $reports): void
     {
         /** @var JobReport $report */
         foreach ($reports as $report) {
@@ -65,7 +65,7 @@ class Manager
     /**
      * @return CronJob[]
      */
-    public function listJobs()
+    public function listJobs(): array
     {
         return $this->getJobRepo()
             ->createQueryBuilder('cronJob')
@@ -76,7 +76,7 @@ class Manager
     /**
      * @return CronJob[]
      */
-    public function listEnabledJobs()
+    public function listEnabledJobs(): array
     {
         return $this->getJobRepo()
             ->findBy(array(
@@ -89,7 +89,7 @@ class Manager
     /**
      * @param CronJob $job
      */
-    public function saveJob(CronJob $job)
+    public function saveJob(CronJob $job): void
     {
         $this->manager->persist($job);
         $this->manager->flush();
@@ -110,7 +110,7 @@ class Manager
     /**
      * @param CronJob $job
      */
-    public function deleteJob(CronJob $job)
+    public function deleteJob(CronJob $job): void
     {
         $this->manager->remove($job);
         $this->manager->flush();
