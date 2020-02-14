@@ -18,7 +18,6 @@
         "effiana/cron": "^2.0",
         "doctrine/data-fixtures": "^1.3",
         "doctrine/doctrine-bundle": "*",
-        "effiana/doctrine-cache-bundle": "*",
         "doctrine/doctrine-migrations-bundle": "^1.3 | ^2.1",
         "doctrine/orm": "*",
         "symfony/framework-bundle": "^4.2 | ^5.0",
