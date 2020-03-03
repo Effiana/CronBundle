@@ -62,7 +62,7 @@ class CronDeleteCommand extends Command
         $question = new ConfirmationQuestion('<question>Delete this job</question> [N/y]: ', false, '/^(y)/i');
 
         if (!$this->getQuestionHelper()->ask($input, $output, $question)) {
-            return;
+            return 0;
         }
 
         $this->manager->deleteJob($job);
