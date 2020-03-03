@@ -37,7 +37,7 @@ class CronStartCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->getOption('blocking')) {
             $output->writeln(sprintf('<info>%s</info>', 'Starting cron scheduler in blocking mode.'));
@@ -69,6 +69,7 @@ class CronStartCommand extends Command
         }
 
         $this->scheduler(new NullOutput(), $pidFile);
+        return 0;
     }
 
     private function scheduler(OutputInterface $output, $pidFile)

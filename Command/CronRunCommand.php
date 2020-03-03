@@ -71,7 +71,7 @@ class CronRunCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $cron = new Cron();
@@ -99,6 +99,8 @@ class CronRunCommand extends Command
                 $io->error(implode("\n", $report->getError()));
             }
         }
+
+        return 0;
     }
 
     /**

@@ -45,7 +45,7 @@ class CronDeleteCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $job = $this->queryJob($input->getArgument('job'));
 
@@ -68,6 +68,7 @@ class CronDeleteCommand extends Command
         $this->manager->deleteJob($job);
 
         $output->writeln(sprintf('<info>Cron "%s" was deleted.</info>', $job->getName()));
+        return 0;
     }
 
     /**

@@ -43,7 +43,7 @@ class CronEnableCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $job = $this->queryJob($input->getArgument('job'));
 
@@ -56,6 +56,7 @@ class CronEnableCommand extends Command
         $this->manager->saveJob($job);
 
         $output->writeln(sprintf('Cron "%s" enabled', $job->getName()));
+        return 0;
     }
 
     /**

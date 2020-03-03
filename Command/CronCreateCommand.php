@@ -50,7 +50,7 @@ class CronCreateCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $job = new CronJob();
 
@@ -101,6 +101,7 @@ class CronCreateCommand extends Command
 
         $output->writeln('');
         $output->writeln(sprintf('<info>Cron "%s" was created..</info>', $job->getName()));
+        return 0;
     }
 
     /**

@@ -31,7 +31,7 @@ class CronStopCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $pidFile = sys_get_temp_dir().DIRECTORY_SEPARATOR.CronStartCommand::PID_FILE;
         if (!file_exists($pidFile)) {
@@ -55,5 +55,7 @@ class CronStopCommand extends Command
         unlink($pidFile);
 
         $output->writeln(sprintf('<info>%s</info>', 'Cron scheduler is stopped.'));
+
+        return 0;
     }
 }
